@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <script src="main.js"></script>
+        <title>Bitshifter</title>
+    </head>
+    <body>
+        <h2>Bitshifter</h2>
+        <div class="container">
+            <div class="checkboxes">
+                <label>
+                    <input type="radio" name="bit-length" value="4"/>
+                    4-Bit
+                </label>
+                <label>
+                    <input type="radio" name="bit-length" value="8"/>
+                    8-Bit
+                </label>
+                <label>
+                    <input type="radio" name="bit-length" value="16"/>
+                    16-bit
+                </label>  
+            </div>
+        </div>
+        
+        <div class="main-container">
+            <div class="input">
+                <div class="label">
+                    Input binary number
+                    <textarea placeholder="Enter binary number"></textarea>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn" value="left"> <- Left Shift</button>
+                <button class="btn" value="right"> ->->-> Logical Right</button>
+                <button class="btn" value="arith"> ->-> Arithemtic Right</button>
+            </div>
+
+            <div class="output">
+                <div class="label"> Result </div>
+                <textarea placeholder="Result" readonly></textarea>
+            </div>
+        </div>
+        </div>
+    </body>
+</html>
