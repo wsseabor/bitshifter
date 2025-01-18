@@ -30,23 +30,34 @@ const is_valid_binary = (input) => {
 
 }
 
-//Utility function, left shift on user input
-const left_shift = (num, bit_length) => {
-    const left_shifted = (num << 1) & max_bits[bit_length];
-    return left_shifted;
+//Binary to decimal function, JS internally performs bit ops on 32-bit integers, so headaches ensue
+const binary_to_decimal = (bin) => {
+    return parseInt(binary, 2);
 }
 
-//Utility function, logical right shift
-const logical_right_shift = (num, bit_length) => {
-    const logical_right_shifted = (num >>> 1) & max_bits[bit_length];
-    return logical_right_shifted;
+//Also have to pad output with zeros to match bit length
+const decimal_to_binary = (decimal, bit_length) => {
+    return decimal.toString(2).padStart(bit_length, '0');
 }
 
-//Utility function, arithmetic right shift
-const arithmetic_right_shift = (num, bit_length) => {
-    const arithemtic_right_shifted = (num >> 1) & max_bits[bit_length];
-    return arithemtic_right_shifted;
+//Shifting ops as object notation
+const shift_ops = {
+    left_shift: (number, bit_length) => {
+        const shift = (number << 1) & max_bits[bit_length];
+        return shift;
+    },
+
+    logical_right_shift: (number, bit_length) => {
+        const shift = number >>> 1;
+        return shift;
+    },
+
+    arithmetic_right_shift: (number, bit_length) => {
+        const shift = number >> 1;
+        return shift;
+    }
 }
+
 
 //Handles input for invalid binary inputs
 const handle_input = () => {
@@ -64,17 +75,39 @@ const handle_input = () => {
 }
 
 const handle_shift = (op) => {
+
+    //No input or error in input, return
     if (!handle_input()) return;
 
+    //Get bit length, get binary user input, convert to decimal
     const bit_length = get_bit_length();
-    const input_binary = elemtns.input.value.trim();
-    const shifted_binary = left_shift(input_binary, bit_length);
+    const input_binary = elements.input.value.trim();
+    const input_decimal = binary_to_decimal(input_binary);
 
+    //Shift the decimal input and then convert to binary to bypass JS 32-bit 
+    const shifted_decimal = shift_ops[op](input_decimal, bit_length);
+    const shifted_binary = decimal_to_binary(shifted_decimal, bit_length);
+
+    //Output
     elements.output.value = shifted_binary;
 }
 
-const debug_events = () => {
-    
+//Event listening
+const init_event_listeners = () => {
+
+    //Check if elements are null before listening
+    if (elements.input){
+        //Input validation
+        elements.input.addEventListener('input', handle_input);
+    }
+
+
+    //Handle buttons
+    elements.buttons.forEach((button, index) => {
+        const ops = ['left_shift', 'logical_right_shift', 'arithmetic_right_shift'];
+        button.addEventListener('click', () => handle_shift(ops[index]));
+    });
+
 }
 
-debug_events()
+init_event_listeners();
