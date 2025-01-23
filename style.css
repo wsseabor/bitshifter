@@ -13,10 +13,12 @@ body {
     border: 1px solid black;
     border-radius: 8px;
     padding: auto;
+    width: 100%;
 }
 
 .checkboxes {
     display: flex;
+    width: 100%;
     justify-content: center;
     gap: 25px;
     margin: 10px;
