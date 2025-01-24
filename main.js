@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Interactable DOM elements in object notation 
     const elements = {
-        bit_length_inputs : document.querySelectorAll('input[name="bit-length"]'),
+        bit_length_inputs : document.querySelectorAll('input[name="bit_length"]'),
         input : document.querySelector('.input textarea'),
         output : document.querySelector('.output textarea'),
         buttons : document.querySelectorAll('.btn'),
@@ -155,6 +155,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         debug.init("Setting event listeners...: ");
 
+        //Check if radios are null before listening
+        if(elements.bit_length_inputs) {
+            elements.bit_length_inputs.forEach((bit_length) => {
+                const lengths = [4, 8, 16];
+                bit_length.addEventListener('change', () => get_bit_length());
+                debug.init('Radio event listener added for ${lengths}');
+            })
+        }
+
         //Check if elements are null before listening
         if (elements.input){
             //Input validation
@@ -166,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.buttons.forEach((button, index) => {
             const ops = ['left_shift', 'logical_right_shift', 'arithmetic_right_shift'];
             button.addEventListener('click', () => handle_shift(ops[index]));
-            debug.init('Button event listener added for ', {ops});
+            debug.init('Button event listener added for ${ops}');
         });
 
     }
