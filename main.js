@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(elements.bit_length_inputs) {
             elements.bit_length_inputs.forEach((bit_length) => {
                 bit_length.addEventListener('change', () => get_bit_length());
-                debug.init('Radio event listener added for ${lengths}');
+                debug.init('Radio event listener added for: ' + bit_length.value);
             })
         }
 
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.buttons.forEach((button, index) => {
             const ops = ['left_shift', 'logical_right_shift', 'arithmetic_right_shift'];
             button.addEventListener('click', () => handle_shift(ops[index]));
-            debug.init('Button event listener added for ${ops}');
+            debug.init('Button event listener added for: ' + button.value);
         });
 
     }
