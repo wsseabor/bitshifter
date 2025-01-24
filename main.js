@@ -78,6 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Shifting ops as object notation
     const shift_ops = {
+
+        //Have to use the max bits of bit length otherwise JS will due regular 32 bit ops and shift
+        //too far to the left which will exceed the maximum value for that bit length
         left_shift: (number, bit_length) => {
             debug.op('Left shift: ', { number, bit_length });
             const shift = (number << 1) & max_bits[bit_length];
@@ -85,6 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return shift;
         },
 
+        //Doesn't need max bitwise & operator because the rightmost (most significant) bit will always
+        //be filled with zero so it can't exceed the max value for that specific bit length
         logical_right_shift: (number, bit_length) => {
             debug.op('Logical right shift: ', { number, bit_length });
             const shift = number >>> 1;
@@ -92,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return shift;
         },
 
+        //Same story as above
         arithmetic_right_shift: (number, bit_length) => {
             debug.op('Arithmetic right shift: ', {number, bit_length});
             const shift = number >> 1;
@@ -100,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    //Shift descriptions to populate the description text area
     const get_shift_descriptions = (op, input_binary, shifted_binary) => {
         const descriptions = {
             left_shift: 'Performed a left shift on ' + input_binary +  '. The result is ' + shifted_binary + 
