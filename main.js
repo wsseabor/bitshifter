@@ -18,16 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
         input : document.querySelector('.input textarea'),
         output : document.querySelector('.output textarea'),
         buttons : document.querySelectorAll('.btn'),
-        texthide : document.querySelector('.texthide')
+        texthide : document.querySelector('.texthide textarea')
 
     }
 
     //Log elements, radio button for bits now returns selected value
     debug.init('Found elements: ', {
-        'bit_length_inputs': elements.bit_length_inputs.length,
+        'bit_length_inputs': elements.bit_length_inputs,
         'input': !!elements.input,
         'output': !!elements.output,
-        'buttons': elements.buttons.length
+        'buttons': elements.buttons.length,
+        'texthide' : elements.texthide.value
     });
 
     //Config for 4, 8, 16 bit digits
@@ -99,6 +100,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    const get_shift_descriptions = (op, input_binary, shifted_binary) => {
+        const descriptions = {
+            left_shift: 'Performed a left shift on ' + input_binary +  '. The result is ' + shifted_binary + 
+            '. Each bit has been shifted to the left one time, with the least significant bit' + 
+            '(the leftmost bit) being set to zero.',
+            logical_right_shift: 'Performed a logical right shift on ' + input_binary + 
+            '. The result is ' + shifted_binary + '. Each bit has been shited to the right one time' + 
+            'with the most significant bit (the rightmost bit) filled with zero.',
+            arithmetic_right_shift: 'Performed an arithmetic right shift on ' + input_binary + 
+            '. The result is ' + shifted_binary + '. Each bit has been shifted right with the rightmost' + 
+            'bit preserved (the sign bit).'
+         };
+
+         return descriptions[op];
+    }
+
 
     //Handles input for invalid binary inputs
     const handle_input = () => {
@@ -149,6 +166,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const shifted_binary = decimal_to_binary(shifted_decimal, bit_length);
         
             elements.output.value = shifted_binary;
+
+            const description = get_shift_descriptions(op, input_binary, shifted_binary);
+            elements.texthide.value = description;
+
             debug.res('Shift operation managed: ', {
                 op,
                 input: input_binary,
