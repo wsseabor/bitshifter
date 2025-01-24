@@ -1,4 +1,5 @@
 //Things never work like you want them to
+//Spread throughout the file to find tricky bugs
 const debug = {
     init: (message) => console.log('Initializing: ', message),
     input: (message, val) => console.log('Input: ', message, val),
@@ -21,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    //Log elements, radio button for bits not returning selected value
+    //Log elements, radio button for bits now returns selected value
     debug.init('Found elements: ', {
         'bit_length_inputs': elements.bit_length_inputs.length,
         'input': !!elements.input,
@@ -39,11 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Utility function to get bit length from radio button check
     //Defaults to 4 if not selected
+    //Have to use JS array.from to get proper selected value
     const get_bit_length = () => {
         const selected = document.querySelector('input[name="bit_length"]:checked');
-        const bit_length = selected ? parseInt(selected.value) : 4;
-        debug.init('Selected bit length: ', bit_length);
-        return bit_length;
+        console.log('Bit length selection debug: ', {
+            bit_length_inputs: Array.from(document.querySelectorAll('input[name="bit_length"]')).map(input => ({
+                value: input.value,
+                checked: input.checked
+            }))
+        });
+        return selected ? parseInt(selected.value) : 4;
     }
 
     //Utility function, valid binary user input
@@ -99,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const input = elements.input.value.trim();
         debug.input('Raw input: ', input)
         
+        //If not valid binary, return false and prompt user on UI
         if (!is_valid_binary(input)) {
             debug.error('Invalid binary input: ', input)
             elements.input.classList.add('Error.')
@@ -106,15 +113,17 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         }
 
+        //Remove if no error
         elements.input.classList.remove('Error.');
         return true;
 
     }
 
+    //Handle all shift button events
     const handle_shift = (op) => {
-
         debug.op('Begin shift operation: ', op)
 
+        //If no bit length value, return
         if (!get_bit_length()) {
             debug.error('Error in retrieving bit length.');
             return;
@@ -134,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const input_decimal = binary_to_decimal(input_binary);
         debug.init('Input decimal: ', input_decimal);
 
+        //Try catch to handle operation
         try {
             const shifted_decimal = shift_ops[op](input_decimal, bit_length);
             const shifted_binary = decimal_to_binary(shifted_decimal, bit_length);
@@ -155,10 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         debug.init("Setting event listeners...: ");
 
-        //Check if radios are null before listening
+        //Check if radios are null before listening and adding listener
         if(elements.bit_length_inputs) {
             elements.bit_length_inputs.forEach((bit_length) => {
-                const lengths = [4, 8, 16];
                 bit_length.addEventListener('change', () => get_bit_length());
                 debug.init('Radio event listener added for ${lengths}');
             })
@@ -171,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             debug.init('Input listening.');
         }
 
-        //Handle buttons
+        //Handle buttons and add lisener
         elements.buttons.forEach((button, index) => {
             const ops = ['left_shift', 'logical_right_shift', 'arithmetic_right_shift'];
             button.addEventListener('click', () => handle_shift(ops[index]));
@@ -180,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
+    //Do the stuff
     init_event_listeners();
 
 })
