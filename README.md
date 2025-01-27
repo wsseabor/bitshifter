@@ -9,10 +9,10 @@ Choose between the three main shift operations in either 4, 8, or 16 bit.
 
 ##### UI 
 
-<img src="/img/ui.png" width="250" height="250">
+<img src="/img/ui.png" width="500" height="500">
 Graphic design **is** my passion.
 
 ##### Debug logging
-<img src="/img/error_log.png" width="250" height="250">
+<img src="/img/error_log.png" width="500" height="500">
 
 This is way too much.
