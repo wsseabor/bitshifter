@@ -9,12 +9,12 @@ Choose between the three main shift operations in either 4, 8, or 16 bit.
 
 ##### UI 
 
-![UI image](/img/ui.png)
+![UI image](/img/ui.png =250x250)
 
 Graphic design **is** my passion.
 
 ##### Debug logging
 
-![Error log image](/img/error_log.png)
+![Error log image](/img/error_log.png =250x250)
 
 This is way too much.
